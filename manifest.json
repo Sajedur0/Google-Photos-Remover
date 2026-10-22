@@ -1,64 +1,38 @@
 {
-  "name": "Google Photos Remover",
-  "description": "One-click bulk delete for Google Photos. Fast and safe photo removal.",
-  "version": "0.1",
   "manifest_version": 3,
+  "name": "Google Photos Remover",
+  "short_name": "Photos Remover",
+  "version": "0.2.0",
+  "description": "Bulk-delete Google Photos in one click. Fast, private batches with all processing kept in your browser.",
+  "homepage_url": "https://github.com/Sajedur0/Google-Photos-Remover",
   "icons": {
     "16": "src/assets/icons/icon_16x16.png",
-    "24": "src/assets/icons/icon_24x24.png",
     "32": "src/assets/icons/icon_32x32.png",
     "48": "src/assets/icons/icon_48x48.png",
-    "64": "src/assets/icons/icon_64x64.png",
-    "96": "src/assets/icons/icon_96x96.png",
-    "128": "src/assets/icons/icon_128x128.png",
-    "256": "src/assets/icons/icon_256x256.png"
-  },
-  "content_scripts": [
-    {
-      "js": [
-        "assets/app.js"
-      ],
-      "matches": [
-        "https://photos.google.com/?delete_all*",
-        "https://photos.google.com/u/*/?delete_all*",
-        "https://photos.google.com/archive?delete_all*",
-        "https://photos.google.com/u/*/archive?delete_all*"
-      ]
-    }
-  ],
-  "background": {
-    "service_worker": "src/background/service-worker.js",
-    "type": "module"
+    "128": "src/assets/icons/icon_128x128.png"
   },
   "action": {
+    "default_title": "Google Photos Remover",
     "default_popup": "src/popup/popup.html",
     "default_icon": {
       "16": "src/assets/icons/icon_16x16.png",
-      "24": "src/assets/icons/icon_24x24.png",
       "32": "src/assets/icons/icon_32x32.png",
       "48": "src/assets/icons/icon_48x48.png",
-      "64": "src/assets/icons/icon_64x64.png",
-      "96": "src/assets/icons/icon_96x96.png",
-      "128": "src/assets/icons/icon_128x128.png",
-      "256": "src/assets/icons/icon_256x256.png"
+      "128": "src/assets/icons/icon_128x128.png"
     }
   },
-  "permissions": [
-    "storage",
-    "identity"
-  ],
-  "content_security_policy": {
-    "extension_pages": "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src https:;"
-  },
-  "web_accessible_resources": [
+  "content_scripts": [
     {
       "matches": [
         "https://photos.google.com/*"
       ],
-      "resources": [
-        "assets/app.js"
+      "include_globs": [
+        "*delete_all*"
       ],
-      "use_dynamic_url": false
+      "js": [
+        "src/content/delete-photos.js"
+      ],
+      "run_at": "document_idle"
     }
   ]
 }

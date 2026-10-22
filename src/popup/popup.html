@@ -1,455 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Google Photo Deleter</title>
-    <style>
-        :root {
-            --primary: #4285F4;
-            --primary-hover: #3367D6;
-            --primary-light: #E8F0FE;
-            --text-dark: #202124;
-            --text-medium: #5F6368;
-            --text-light: #80868B;
-            --bg: #FFFFFF;
-            --card: #F8F9FA;
-            --border: #E0E0E0;
-            --success: #34A853;
-            --shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-            --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.18);
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            width: 340px;
-            min-height: 320px;
-            padding: 20px;
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-            color: var(--text-dark);
-            transition: all 0.3s ease;
-        }
-
-        .popup-container {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, var(--primary), #34A853);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-hover);
-        }
-
-        h1 {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin: 0;
-            letter-spacing: 0.2px;
-        }
-
-        .subtitle {
-            font-size: 13px;
-            color: var(--text-medium);
-            line-height: 1.5;
-            margin: 0;
-            opacity: 0.9;
-        }
-
-        .description {
-            font-size: 14px;
-            color: var(--text-medium);
-            line-height: 1.6;
-            margin: 0;
-            padding: 8px 0;
-        }
-
-        .account-section {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .account-section:hover {
-            border-color: var(--primary-light);
-            background: #F1F5FB;
-        }
-
-        .account-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .account-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin: 0;
-        }
-
-        .account-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        .account-button {
-            background: var(--bg);
-            color: var(--text-dark);
-            border: 1px solid var(--border);
-            padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .account-button:hover {
-            border-color: var(--primary);
-            background: #F0F7FF;
-        }
-
-        .account-button.primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-            color: white;
-            border: none;
-        }
-
-        .account-button.primary:hover {
-            background: linear-gradient(135deg, var(--primary-hover), #2952A3);
-        }
-
-        .account-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        .avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), #34A853);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
-
-        .account-details {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .account-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .account-email {
-            font-size: 12px;
-            color: var(--text-light);
-        }
-
-        .account-status {
-            font-size: 11px;
-            color: var(--text-light);
-            margin-top: 6px;
-        }
-
-        .button {
-            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-            color: white;
-            border: none;
-            padding: 14px 18px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-            margin: 8px 0 4px;
-            width: 100%;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .button:hover {
-            background: linear-gradient(135deg, var(--primary-hover), #2952A3);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .button:active {
-            transform: translateY(0);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .button:disabled:hover {
-            box-shadow: var(--shadow);
-        }
-
-        .button-icon {
-            margin-right: 8px;
-            font-size: 16px;
-            vertical-align: middle;
-        }
-
-        .info-box {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 12px;
-            font-size: 12px;
-            color: var(--text-light);
-            line-height: 1.5;
-            transition: all 0.3s ease;
-        }
-
-        .info-box:hover {
-            border-color: var(--primary-light);
-            background: #F1F5FB;
-        }
-
-        .footer-note {
-            font-size: 11px;
-            color: var(--text-light);
-            line-height: 1.4;
-            margin-top: 8px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border);
-        }
-
-        .creator-section {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 8px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border);
-            background: linear-gradient(135deg, #F8F9FA 0%, #FFFFFF 100%);
-            border-radius: 10px;
-            padding: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .creator-section:hover {
-            background: linear-gradient(135deg, #F0F7FF 0%, #FFFFFF 100%);
-            transform: translateY(-1px);
-        }
-
-        .creator-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), #34A853);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-            flex-shrink: 0;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-        }
-
-        .creator-section:hover .creator-icon {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .creator-content {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .creator-title {
-            font-size: 12px;
-            color: var(--text-light);
-            margin: 0;
-        }
-
-        .creator-name {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            letter-spacing: 0.3px;
-        }
-
-        .creator-name:hover {
-            color: var(--primary-hover);
-            text-decoration: underline;
-            transform: translateX(2px);
-        }
-
-        .creator-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-            color: white;
-            padding: 3px 8px;
-            border-radius: 999px;
-            font-size: 10px;
-            font-weight: 700;
-            margin-left: 6px;
-            box-shadow: var(--shadow);
-        }
-
-        .badge {
-            display: inline-block;
-            background: var(--primary-light);
-            color: var(--primary);
-            padding: 4px 8px;
-            border-radius: 999px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-left: 6px;
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(66, 133, 244, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(66, 133, 244, 0);
-            }
-        }
-
-        .subtle-glow {
-            position: relative;
-        }
-
-        .subtle-glow::after {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            background: linear-gradient(45deg, var(--primary), #34A853);
-            border-radius: 14px;
-            opacity: 0.2;
-            filter: blur(6px);
-            z-index: -1;
-        }
-
-        .loading {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s linear infinite;
-            margin-right: 8px;
-        }
-
-        .loading.dark {
-            border-top-color: var(--text-dark);
-            border-color: rgba(0, 0, 0, 0.2);
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Google Photos Remover</title>
+  <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
-    <div class="popup-container subtle-glow">
-        <div class="header">
-            <div class="logo pulse">GP</div>
-            <div>
-                <h1>Google Photos Remover</h1>
-                <p class="subtitle">Quickly remove all your photos</p>
-            </div>
-        </div>
-
-        <div class="description">Click below to open Google account options. Select your account and auto-delete will start.</div>
-
-        <a href="#" id="deletePhotosBtn" class="button" disabled>
-            <span class="button-icon">🗑️</span>
-            Delete All Photos
-        </a>
-
-        <div class="info-box">
-            <strong>What happens next:</strong> This will open Google account sign-out options. Select your account and auto-delete will start in Google Photos.
-        </div>
-
-        <p class="footer-note">
-            <strong>Privacy Note:</strong> This extension does not record or transmit any of your private data. 
-            <span class="badge">Secure</span>
-        </p>
-        
-        <div class="creator-section">
-            <div class="creator-icon">👨‍💻</div>
-            <div class="creator-content">
-                <p class="creator-title">Crafted with ❤️ for your digital freedom</p>
-                <a href="https://github.com/sajedur0" target="_blank" rel="noopener noreferrer" class="creator-name">
-                    Sajedur0 
-                    <span class="creator-badge">Developer</span>
-                </a>
-            </div>
-        </div>
+  <header class="header">
+    <img class="app-icon" src="../assets/icons/icon_48x48.png" width="34" height="34" alt="" />
+    <div class="heading">
+      <h1>Google Photos Remover</h1>
+      <p class="tagline">Bulk delete, without the clicking.</p>
     </div>
+    <span class="version" id="version">v0.2.0</span>
+  </header>
 
-    <script src="popup-script.js"></script>
+  <section class="status" id="statusCard" data-phase="idle" aria-live="polite">
+    <span class="dot" aria-hidden="true"></span>
+    <div class="status-body">
+      <p class="status-title" id="statusTitle">Ready when you are</p>
+      <p class="status-text" id="statusText">Opens Google Photos in a new tab and moves your library to Trash in batches.</p>
+    </div>
+  </section>
+
+  <div class="stats" id="stats" hidden>
+    <div class="stat">
+      <b id="selectedCount">0</b>
+      <span>Selected</span>
+    </div>
+    <div class="stat">
+      <b id="deletedCount">0</b>
+      <span>In Trash</span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button type="button" id="startBtn" class="btn primary">Remove all photos</button>
+    <button type="button" id="stopBtn" class="btn danger" hidden>Stop</button>
+  </div>
+
+  <p class="hint">Keep the new tab open while it runs. You can stop at any time from the page panel.</p>
+
+  <details class="steps">
+    <summary>How it works</summary>
+    <ol>
+      <li>Opens Google Photos and your Google account chooser.</li>
+      <li>Selects photos in batches of 500 and moves them to Trash.</li>
+      <li>Empty Trash when you are ready to free up space permanently.</li>
+    </ol>
+  </details>
+
+  <footer class="footer">
+    <div class="footer-row">
+      <p class="privacy">No accounts, no tracking, no server. Everything runs in your browser.</p>
+      <a class="trash-link" href="https://photos.google.com/trash" target="_blank" rel="noopener noreferrer">Open Trash</a>
+    </div>
+    <div class="footer-row footer-meta">
+      <span>Built by <a href="https://github.com/Sajedur0" target="_blank" rel="noopener noreferrer">Sajedur0</a></span>
+      <span class="last-run" id="lastRun" hidden></span>
+    </div>
+  </footer>
+
+  <script src="popup-script.js"></script>
 </body>
 </html>

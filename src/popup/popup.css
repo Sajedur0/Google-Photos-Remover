@@ -1,0 +1,368 @@
+:root {
+  color-scheme: light dark;
+
+  --bg: #ffffff;
+  --surface: #f8f9fa;
+  --surface-border: #eceef0;
+  --text: #202124;
+  --text-muted: #5f6368;
+  --text-faint: #80868b;
+  --accent: #1a73e8;
+  --accent-hover: #1765cc;
+  --danger-bg: #fce8e6;
+  --danger-text: #c5221f;
+  --success: #188038;
+  --dot: #9aa0a6;
+  --shadow: 0 1px 2px rgba(60, 64, 67, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #202124;
+    --surface: #292a2d;
+    --surface-border: #3c4043;
+    --text: #e8eaed;
+    --text-muted: #bdc1c6;
+    --text-faint: #9aa0a6;
+    --accent: #8ab4f8;
+    --accent-hover: #aecbfa;
+    --danger-bg: #3a1f1e;
+    --danger-text: #f28b82;
+    --success: #81c995;
+    --dot: #9aa0a6;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 336px;
+  padding: 16px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* Header ------------------------------------------------------------ */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.app-icon {
+  flex: none;
+  border-radius: 9px;
+  background: #ffffff;
+  box-shadow: var(--shadow);
+}
+
+.heading {
+  flex: 1;
+  min-width: 0;
+}
+
+h1 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tagline {
+  margin: 1px 0 0;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.version {
+  flex: none;
+  align-self: flex-start;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  color: var(--text-faint);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Status ------------------------------------------------------------ */
+
+.status {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 11px 12px;
+  margin-bottom: 10px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+}
+
+.dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: var(--dot);
+}
+
+.status[data-phase="starting"] .dot,
+.status[data-phase="selecting"] .dot,
+.status[data-phase="deleting"] .dot,
+.status[data-phase="waiting"] .dot {
+  background: var(--accent);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.status[data-phase="completed"] .dot {
+  background: var(--success);
+}
+
+.status[data-phase="error"] .dot {
+  background: var(--danger-text);
+}
+
+.status-title {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.status-text {
+  margin: 1px 0 0;
+  color: var(--text-muted);
+  font-size: 11.5px;
+}
+
+/* Stats ------------------------------------------------------------- */
+
+.stats {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.stat {
+  flex: 1;
+  padding: 8px 10px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 10px;
+}
+
+.stat b {
+  display: block;
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: -0.3px;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat span {
+  display: block;
+  margin-top: 1px;
+  color: var(--text-muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* Actions ----------------------------------------------------------- */
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  flex: 1;
+  height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 120ms ease, transform 80ms ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+  transform: none;
+}
+
+.btn.primary {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.btn.primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn.primary {
+    color: #202124;
+  }
+}
+
+.btn.danger {
+  background: var(--danger-bg);
+  color: var(--danger-text);
+}
+
+.btn.danger:hover:not(:disabled) {
+  filter: brightness(0.97);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.hint {
+  margin: 8px 0 0;
+  color: var(--text-faint);
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+
+/* Steps ------------------------------------------------------------- */
+
+.steps {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--surface-border);
+}
+
+.steps summary {
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.steps summary::-webkit-details-marker {
+  display: none;
+}
+
+.steps summary::before {
+  content: "▸ ";
+  color: var(--text-faint);
+}
+
+.steps[open] summary::before {
+  content: "▾ ";
+}
+
+.steps ol {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: var(--text-muted);
+  font-size: 11.5px;
+}
+
+.steps li {
+  margin: 4px 0;
+}
+
+/* Footer ------------------------------------------------------------ */
+
+.footer {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--surface-border);
+}
+
+.footer-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.footer-meta {
+  margin-top: 6px;
+  color: var(--text-faint);
+  font-size: 10.5px;
+}
+
+.privacy {
+  margin: 0;
+  color: var(--text-faint);
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.trash-link {
+  flex: none;
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.last-run {
+  white-space: nowrap;
+}
+
+/* Animation --------------------------------------------------------- */
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(26, 115, 232, 0.35);
+  }
+  50% {
+    opacity: 0.75;
+    box-shadow: 0 0 0 4px rgba(26, 115, 232, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status .dot {
+    animation: none;
+  }
+
+  .btn {
+    transition: none;
+  }
+}

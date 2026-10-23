@@ -1,5 +1,10 @@
 {
-  "dependencies": {
-    "typescript": "^5.9.3"
+  "name": "google-photos-remover",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Chrome extension that bulk-deletes Google Photos in safe batches.",
+  "license": "MIT",
+  "scripts": {
+    "check": "node scripts/check.js"
   }
 }

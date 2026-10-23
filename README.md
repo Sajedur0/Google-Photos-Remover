@@ -6,16 +6,35 @@ account access, no server, no tracking.
 
 ![Version](https://img.shields.io/badge/version-0.2.0-1a73e8)
 ![Manifest](https://img.shields.io/badge/manifest-v3-34a853)
+![License](https://img.shields.io/badge/license-Apache%202.0-1a73e8)
 ![Permissions](https://img.shields.io/badge/permissions-none-5f6368)
 
 ## Install
 
-The extension is not published on the Chrome Web Store yet. Load it locally:
+### Production (store / packed)
+
+The preferred install path is the Chrome Web Store listing:
+
+1. Open the [Chrome Web Store listing](https://chromewebstore.google.com/) *(link goes live when the extension is published)*.
+2. Click **Add to Chrome**.
+
+To install the shipped package before the store listing is live:
+
+1. Download `google-photos-remover-<version>.zip` from the repository's
+   [Releases](https://github.com/Sajedur0/Google-Photos-Remover/releases) page
+   and unzip it.
+2. Open `chrome://extensions`.
+3. Enable **Developer mode** (top right).
+4. Click **Load unpacked** and select the unzipped folder.
+
+### Developer (unpacked)
 
 1. Download or clone this repository.
 2. Open `chrome://extensions`.
 3. Enable **Developer mode** (top right).
 4. Click **Load unpacked** and select the repository folder.
+
+Either way, no sign-in, permissions or configuration are required to install.
 
 ## Use
 
@@ -87,13 +106,17 @@ src/
   popup/popup.css           Popup styles (light + dark)
   popup/popup-script.js     Popup logic and live status
   assets/icons/*.png        16/32/48/128 px icons
-scripts/check.js            Package + syntax validation
+scripts/check.js            Package + syntax + store-readiness validation
+scripts/package.js          Builds the store-ready zip into dist/
+LICENSE                     Apache License 2.0
+NOTICE                      Copyright and attribution
 ```
 
 ## Development
 
 ```bash
-npm run check     # validates manifest, referenced files and JS syntax
+npm run check     # validates manifest, referenced files, store limits and JS syntax
+npm run package   # runs the checks, then builds dist/google-photos-remover-<version>.zip
 ```
 
 After editing files, press the reload button for the extension on
@@ -105,8 +128,29 @@ the top of `src/content/delete-photos.js` (`CHECKBOX_SELECTORS`,
 `DELETE_BUTTON_SELECTORS`, `DIALOG_*`).
 
 When releasing, bump the version in **both** `manifest.json` and
-`package.json`; `npm run check` fails if they differ.
+`package.json` (and `version_name`); `npm run check` fails if they differ.
+
+## Release
+
+`npm run package` writes `dist/google-photos-remover-<version>.zip` — the
+exact artifact to upload to the Chrome Web Store Developer Dashboard (or
+Edge Add-ons). The zip contains only the runtime files plus `LICENSE`,
+`NOTICE` and `README.md`, and repeated builds of the same tree are
+byte-identical.
+
+Publishing checklist:
+
+1. Bump `version` (and `version_name`) in `manifest.json` and `version` in
+   `package.json`, then run `npm run package`.
+2. Upload the zip to the store dashboard and fill in the listing (screenshots,
+   the single-purpose description, and a privacy policy URL — this extension
+   makes no network requests and collects no user data).
+3. Tag the release in git and attach the same zip for non-store installs.
 
 ## License
 
-[MIT](LICENSE) © Sajedur Rahman Roni
+Copyright 2025-2026 Sajedur Rahman Roni.
+
+Licensed under the [Apache License, Version 2.0](LICENSE). You may not use
+this project except in compliance with the License. See [NOTICE](NOTICE) for
+attribution details.

@@ -1,10 +1,12 @@
 {
   "manifest_version": 3,
   "name": "Google Photos Remover",
-  "short_name": "Photos Remover",
+  "short_name": "PhotoRemover",
   "version": "0.2.0",
-  "description": "Bulk-delete Google Photos in one click. Fast, private batches with all processing kept in your browser.",
+  "version_name": "0.2.0",
+  "description": "Bulk-delete Google Photos in one click. Fast, private batches with all processing kept in your browser",
   "homepage_url": "https://github.com/Sajedur0/Google-Photos-Remover",
+  "minimum_chrome_version": "88",
   "icons": {
     "16": "src/assets/icons/icon_16x16.png",
     "32": "src/assets/icons/icon_32x32.png",

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: Apache-2.0
 /**
  * Zero-dependency sanity checks for the extension package.
  * Run with: npm run check
@@ -60,6 +61,28 @@ if (!/^\d+(\.\d+){0,3}$/.test(manifest.version || '')) {
 
 if (JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8')).version !== manifest.version) {
   fail('package.json version does not match manifest.json');
+}
+
+if (manifest.version_name && !String(manifest.version_name).startsWith(manifest.version)) {
+  fail(`version_name (${manifest.version_name}) does not match version (${manifest.version})`);
+}
+
+for (const legal of ['LICENSE', 'NOTICE']) {
+  if (!fileExists(legal)) fail(`Missing ${legal} file`);
+}
+
+// Chrome Web Store listing constraints.
+if ((manifest.name || '').length > 45) {
+  fail(`name is ${(manifest.name || '').length} chars; the Chrome Web Store allows 45`);
+}
+if ((manifest.short_name || '').length > 12) {
+  fail(`short_name is ${(manifest.short_name || '').length} chars; Chrome truncates over 12`);
+}
+if ((manifest.description || '').length > 132) {
+  fail(`description is ${(manifest.description || '').length} chars; the Chrome Web Store allows 132`);
+}
+if (!manifest.icons || !manifest.icons['128']) {
+  fail('manifest.icons must include a 128x128 icon (required by the Chrome Web Store)');
 }
 
 for (const icon of Object.values(manifest.icons || {})) checkFile(icon);

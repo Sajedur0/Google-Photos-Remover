@@ -4,7 +4,7 @@ A tiny Chrome extension for bulk-deleting Google Photos. It clicks through
 Google Photos' own interface in safe batches and shows live progress — no
 account access, no server, no tracking.
 
-![Version](https://img.shields.io/badge/version-0.2.0-1a73e8)
+![Version](https://img.shields.io/badge/version-1.0.0-1a73e8)
 ![Manifest](https://img.shields.io/badge/manifest-v3-34a853)
 ![License](https://img.shields.io/badge/license-Apache%202.0-1a73e8)
 ![Permissions](https://img.shields.io/badge/permissions-none-5f6368)
@@ -89,6 +89,10 @@ popup ──opens──► accounts.google.com/AccountChooser
 
 ## Privacy
 
+Full policy: **[PRIVACY.md](PRIVACY.md)** — use the
+[public URL](https://github.com/Sajedur0/Google-Photos-Remover/blob/main/PRIVACY.md)
+in store listings. Highlights:
+
 - Runs entirely in your browser; the extension makes **no network requests**.
 - Requests **no permissions** at all — no `storage`, no `identity`, no `tabs`.
   The only host access is the content script on `photos.google.com` (Chrome
@@ -110,6 +114,7 @@ scripts/check.js            Package + syntax + store-readiness validation
 scripts/package.js          Builds the store-ready zip into dist/
 LICENSE                     Apache License 2.0
 NOTICE                      Copyright and attribution
+PRIVACY.md                  Privacy policy (store-listing URL in README)
 ```
 
 ## Development
@@ -135,16 +140,17 @@ When releasing, bump the version in **both** `manifest.json` and
 `npm run package` writes `dist/google-photos-remover-<version>.zip` — the
 exact artifact to upload to the Chrome Web Store Developer Dashboard (or
 Edge Add-ons). The zip contains only the runtime files plus `LICENSE`,
-`NOTICE` and `README.md`, and repeated builds of the same tree are
-byte-identical.
+`NOTICE`, `PRIVACY.md` and `README.md`, and repeated builds of the same tree
+are byte-identical.
 
 Publishing checklist:
 
 1. Bump `version` (and `version_name`) in `manifest.json` and `version` in
    `package.json`, then run `npm run package`.
 2. Upload the zip to the store dashboard and fill in the listing (screenshots,
-   the single-purpose description, and a privacy policy URL — this extension
-   makes no network requests and collects no user data).
+   the single-purpose description, and the privacy policy URL:
+   `https://github.com/Sajedur0/Google-Photos-Remover/blob/main/PRIVACY.md` —
+   this extension makes no network requests and collects no user data).
 3. Tag the release in git and attach the same zip for non-store installs.
 
 ## License

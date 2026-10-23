@@ -67,7 +67,7 @@ if (manifest.version_name && !String(manifest.version_name).startsWith(manifest.
   fail(`version_name (${manifest.version_name}) does not match version (${manifest.version})`);
 }
 
-for (const legal of ['LICENSE', 'NOTICE']) {
+for (const legal of ['LICENSE', 'NOTICE', 'PRIVACY.md']) {
   if (!fileExists(legal)) fail(`Missing ${legal} file`);
 }
 

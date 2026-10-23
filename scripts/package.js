@@ -8,7 +8,8 @@
  * no `zip` binary and no npm install.
  *
  * The package contains only what a browser store needs:
- *   manifest.json, src/** (runtime code + icons), LICENSE, NOTICE, README.md
+ *   manifest.json, src/** (runtime code + icons), LICENSE, NOTICE, PRIVACY.md,
+ *   README.md
  * Repo-only files (scripts/, package.json, .github/) are never shipped.
  *
  * Run with: npm run package   (validates first, then builds)
@@ -41,7 +42,7 @@ function listFilesRecursive(relativeDir) {
 }
 
 function collectFiles() {
-  const files = new Set(['manifest.json', 'LICENSE', 'NOTICE', 'README.md']);
+  const files = new Set(['manifest.json', 'LICENSE', 'NOTICE', 'PRIVACY.md', 'README.md']);
   for (const rel of listFilesRecursive('src')) files.add(rel);
 
   // Anything the manifest points at must be present (double-check beyond
